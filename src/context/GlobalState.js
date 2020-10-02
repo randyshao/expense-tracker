@@ -4,10 +4,10 @@ import AppReducer from './AppReducer';
 // Initial State
 const initialState = {
   transactions: [
-    { id: 1, text: 'Flower', amount: -20 },
-    { id: 2, text: 'Salary', amount: 300 },
-    { id: 3, text: 'Book', amount: -10 },
-    { id: 4, text: 'Camera', amount: 150 },
+    //     { id: 1, text: 'Flower', amount: -20 },
+    //     { id: 2, text: 'Salary', amount: 300 },
+    //     { id: 3, text: 'Book', amount: -10 },
+    //     { id: 4, text: 'Camera', amount: 150 },
   ],
 };
 
@@ -18,10 +18,27 @@ export const GlobalContext = createContext(initialState); // argument is the def
 export const GlobalProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AppReducer, initialState); // To call a reducer action, dispatch is called, takes in (reducer, state)
 
+  // Actions
+  function deleteTransaction(id) {
+    dispatch({
+      type: 'DELETE_TRANSACTION',
+      payload: id,
+    });
+  }
+
+  function addTransaction(transaction) {
+    dispatch({
+      type: 'ADD_TRANSACTION',
+      payload: transaction,
+    });
+  }
+
   return (
     <GlobalContext.Provider // provides state, actions to any components that its wrapped around
       value={{
         transactions: state.transactions,
+        deleteTransaction,
+        addTransaction,
       }}
     >
       {children}
